@@ -6,7 +6,7 @@
 #define PRACTICE_ADAPTER_H
 
 #include "Composite.h"
-
+#include "Decorator.h"
 using namespace std;
 /**
  * the Graphic class is the Target
@@ -55,13 +55,25 @@ public:
     void draw(vector<string> &board)override{
         adaptee_->drawText(board[position.y].begin()+position.x);
     }
+    int get_length()override{
+        return 0;
+    }
+    int get_width()override {
+        return 0;
+    }
+    Point get_position() override{
+        return position;
+    }
+
 };
 
 void testComposite(){
     shared_ptr<Composite> component1 = make_shared<Composite>(10,20, 0,0, red);
     shared_ptr<Graphic> rectangle = make_shared<Rectangle>(green, 3,3, 5, 5 );
-    shared_ptr<Graphic> ts = make_shared<TextShape>(new TextBox("test", 1, red), 5,5);
+    shared_ptr<Graphic> ts = make_shared<TextShape>(new TextBox("test", 1, red), 5,2);
+    shared_ptr<Graphic> borderDecorator = make_shared<BorderDecorator>(rectangle, blue);
     component1->add(rectangle);
+    component1->add(borderDecorator);
     component1->add(ts);
     component1->draw();
 

@@ -7,6 +7,9 @@
 #include <list>
 #include <functional>
 #include <utility>
+
+class Decorator;
+
 using namespace std;
 enum Color  {red=0, green, blue};
 
@@ -35,18 +38,28 @@ struct Point{
  * Compo class (component) is an interface for gui component
  */
 
-class Graphic{
+class Graphic {
 public:
     virtual void move(int x, int y) = 0;
+
     virtual void setSize(int length, int width) = 0;
+
     virtual void draw(vector<string> &board) = 0;
+
     virtual void setColor(Color color) = 0;
+
+    virtual int get_length() = 0;
+
+    virtual int get_width() = 0;
+
+    virtual Point get_position() = 0;
+
 };
 /**
  * Leaf
  */
 class Rectangle: public Graphic{
-private:
+protected:
     Color color;
     Point position;
     int length;
@@ -71,10 +84,20 @@ public:
             }
         }
     }
+    int get_length()override{
+        return length;
+    }
+    int get_width()override {
+        return width;
+    }
+    Point get_position() override{
+        return position;
+    }
+
 };
 
 class Composite: public Graphic, public list<shared_ptr<Graphic>>{
-private:
+protected:
     int length;
     int width;
     Point position;
@@ -139,7 +162,16 @@ public:
                 break;
             }
         }
-
     }
+    int get_length()override{
+        return length;
+    }
+    int get_width()override {
+        return width;
+    }
+    Point get_position() override{
+        return position;
+    }
+
 };
 #endif //PRACTICE_COMPOSITE_H
