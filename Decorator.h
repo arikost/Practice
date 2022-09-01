@@ -36,6 +36,9 @@ public:
     Point get_position() override{
         return widget_->get_position();
     }
+    Color getColor()override{
+        return widget_->getColor();
+    }
 
 };
 
@@ -50,14 +53,15 @@ public:
 
         cout<<"in BorderDecorator::draw\n";
 
-        for (int i = get_position().y; i < get_position().y + get_length(); i++) {
-            board[get_position().x].at(i) = paint(borderColor);
-            board[get_position().x + get_width()-1].at(i) = paint(borderColor);
+        for (int i = get_position().x; i < get_position().x + get_length(); i++) {
+            board[i][get_position().y] = paint(borderColor);
+            board[i][get_position().y + get_width()-1] = paint(borderColor);
         }
-        for (int i = get_position().x; i < get_position().x + get_width(); i++) {
-            board[i].at(get_position().y) = paint(borderColor);
-            board[i].at(get_position().y + get_length()-1) = paint(borderColor);
-        }
+        string::iterator i_top = board[get_position().y].begin() +get_position().x + 1;
+        replace(i_top, i_top + get_width()-1, paint(widget_->getColor()), paint(borderColor));
+        string::iterator i_bottom = board[get_position().y+get_length()-1].begin()+get_position().x + 1;
+        replace(i_bottom, i_bottom + get_width()-1, paint(widget_->getColor()), paint(borderColor));
+
     }
 };
 

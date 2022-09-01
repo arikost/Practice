@@ -11,7 +11,7 @@
 class Decorator;
 
 using namespace std;
-enum Color  {red=0, green, blue};
+enum Color  {red=0, green, blue, white};
 
 char paint(Color color){
     switch (color) {
@@ -21,6 +21,8 @@ char paint(Color color){
             return '#';
         case blue:
             return '+';
+        case white:
+            return ' ';
     }
 }
 struct Point{
@@ -53,7 +55,7 @@ public:
     virtual int get_width() = 0;
 
     virtual Point get_position() = 0;
-
+    virtual Color getColor() = 0;
 };
 /**
  * Leaf
@@ -93,7 +95,9 @@ public:
     Point get_position() override{
         return position;
     }
-
+    Color getColor()override{
+        return color;
+    }
 };
 
 class Composite: public Graphic, public list<shared_ptr<Graphic>>{
@@ -171,6 +175,9 @@ public:
     }
     Point get_position() override{
         return position;
+    }
+    Color getColor()override{
+        return color;
     }
 
 };

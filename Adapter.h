@@ -64,16 +64,21 @@ public:
     Point get_position() override{
         return position;
     }
+    Color getColor()override{
+        return white;
+    }
 
 };
 
 void testComposite(){
-    shared_ptr<Composite> component1 = make_shared<Composite>(10,20, 0,0, red);
+    shared_ptr<Composite> component1 = make_shared<Composite>(10,20, 0,0, white);
+    shared_ptr<Graphic> borderDecorator1 = make_shared<BorderDecorator>(component1, red);
+    component1->add(borderDecorator1);
     shared_ptr<Graphic> rectangle = make_shared<Rectangle>(green, 3,3, 5, 5 );
     shared_ptr<Graphic> ts = make_shared<TextShape>(new TextBox("test", 1, red), 5,2);
-    shared_ptr<Graphic> borderDecorator = make_shared<BorderDecorator>(rectangle, blue);
+    shared_ptr<Graphic> borderDecorator2 = make_shared<BorderDecorator>(rectangle, blue);
     component1->add(rectangle);
-    component1->add(borderDecorator);
+    component1->add(borderDecorator2);
     component1->add(ts);
     component1->draw();
 
